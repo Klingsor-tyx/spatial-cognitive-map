@@ -626,6 +626,60 @@
       font-size: 0.86rem;
     }
 
+    .figure-card {
+      padding: 1rem;
+      overflow: hidden;
+    }
+
+    .figure-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 18px;
+      background: #ffffff;
+    }
+
+    .figure-caption {
+      margin: 0.85rem 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+      text-align: center;
+    }
+
+    .hero-figure {
+      max-width: var(--max);
+      margin: -2rem auto 0;
+      padding: 0 1.2rem;
+    }
+
+    .subsection-grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .subsection-text {
+      padding: 1.4rem;
+    }
+
+    .subsection-text h3 {
+      margin: 0 0 0.6rem;
+      color: var(--blue-dark);
+      letter-spacing: -0.02em;
+      font-size: 1.45rem;
+    }
+
+    .subsection-text p {
+      margin: 0;
+      color: #475569;
+    }
+
+    .image-stack {
+      display: grid;
+      gap: 1rem;
+    }
+
     .bibtex {
       padding: 1.2rem;
       overflow-x: auto;
@@ -665,7 +719,8 @@
     @media (max-width: 940px) {
       .hero,
       .framework,
-      .two-col {
+      .two-col,
+      .subsection-grid {
         grid-template-columns: 1fr;
       }
 
@@ -753,6 +808,9 @@
         <a href="#abstract">Abstract</a>
         <a href="#framework">Framework</a>
         <a href="#taxonomy">Taxonomy</a>
+        <a href="#perception">Perception</a>
+        <a href="#reasoning">Reasoning</a>
+        <a href="#generation">Generation</a>
         <a href="#applications">Applications</a>
         <a href="#future">Future</a>
         <a href="#cite">Cite</a>
@@ -798,6 +856,13 @@
       </div>
     </section>
 
+    <section class="hero-figure reveal" aria-label="Spatial intelligence overview figure">
+      <div class="figure-card card">
+        <img src="./asset/spatial.png" alt="Overview of spatial intelligence from a cognitive map perspective" />
+        <p class="figure-caption">Overview of spatial intelligence from a cognitive map perspective.</p>
+      </div>
+    </section>
+
     <section class="section reveal" id="abstract">
       <div class="section-head">
         <span class="eyebrow">Abstract</span>
@@ -827,6 +892,10 @@
           <h3>Persistency</h3>
           <p>Maintain and update spatial representations through memory rather than reconstructing the world from scratch.</p>
         </article>
+      </div>
+      <div class="figure-card card" style="margin-top: 1.5rem;">
+        <img src="./asset/definition.png" alt="Definition of cognitive map: abstraction, globality, and persistency" />
+        <p class="figure-caption">Definition of cognitive map: abstraction, globality, and persistency.</p>
       </div>
     </section>
 
@@ -890,6 +959,88 @@
           <div class="tax-item"><b>Interaction</b><span>Open-loop cognition · closed-loop embodied behavior</span></div>
         </div>
       </div>
+      <div class="figure-card card" style="margin-top: 1.5rem;">
+        <img src="./asset/structure.png" alt="Overall structure and taxonomy of the survey" />
+        <p class="figure-caption">Overall structure and taxonomy of the survey.</p>
+      </div>
+    </section>
+
+    <section class="section reveal" id="perception">
+      <div class="section-head">
+        <span class="eyebrow">Perception</span>
+        <h2>Construction of cognitive maps.</h2>
+        <p>
+          Perception constructs unified internal spatial representations from local and fragmented sensor observations, including metric, relational, and hybrid cognitive maps.
+        </p>
+      </div>
+      <div class="subsection-grid">
+        <div class="subsection-text card">
+          <h3>Representation paradigms</h3>
+          <p>Metric representations provide geometric grounding, relational representations organize topological and semantic dependencies, and hybrid representations combine both levels for richer spatial understanding.</p>
+        </div>
+        <div class="image-stack">
+          <div class="figure-card card">
+            <img src="./asset/perception.png" alt="Perception: construction of cognitive maps" />
+            <p class="figure-caption">Perception: construction of cognitive maps.</p>
+          </div>
+          <div class="figure-card card">
+            <img src="./asset/table1.png" alt="Table 1: Overview of different representations" />
+            <p class="figure-caption">Table 1. Overview of different representations.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="reasoning">
+      <div class="section-head">
+        <span class="eyebrow">Reasoning</span>
+        <h2>Inference with cognitive maps.</h2>
+        <p>
+          Reasoning uses cognitive maps as embeddings, prompts, or callable APIs to retrieve spatial knowledge, ground language and perception, and support planning or decision-making.
+        </p>
+      </div>
+      <div class="subsection-grid">
+        <div class="subsection-text card">
+          <h3>Reasoning paradigms</h3>
+          <p>Map-as-embedding emphasizes compact latent states, map-as-prompt connects cognitive maps with foundation models, and map-as-API supports controlled, stateful, closed-loop spatial reasoning.</p>
+        </div>
+        <div class="image-stack">
+          <div class="figure-card card">
+            <img src="./asset/reasoning.png" alt="Reasoning: inference with cognitive maps" />
+            <p class="figure-caption">Reasoning: inference with cognitive maps.</p>
+          </div>
+          <div class="figure-card card">
+            <img src="./asset/table2.png" alt="Table 2: Reasoning paradigms for inference with cognitive maps" />
+            <p class="figure-caption">Table 2. Reasoning paradigms for inference with cognitive maps.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="generation">
+      <div class="section-head">
+        <span class="eyebrow">Generation</span>
+        <h2>Realization of cognitive maps.</h2>
+        <p>
+          Generation transforms internal cognitive maps into external spatial forms, including static 3D scene synthesis and dynamic world simulation.
+        </p>
+      </div>
+      <div class="subsection-grid">
+        <div class="subsection-text card">
+          <h3>From map to world</h3>
+          <p>Cognitive maps can serve as structural priors, layout constraints, retrieval plans, or state memories for synthesizing scenes and maintaining temporal consistency in simulated worlds.</p>
+        </div>
+        <div class="image-stack">
+          <div class="figure-card card">
+            <img src="./asset/generation.png" alt="Generation: realization of cognitive maps" />
+            <p class="figure-caption">Generation: realization of cognitive maps.</p>
+          </div>
+          <div class="figure-card card">
+            <img src="./asset/table3.png" alt="Table 3: Generation methods for realization of cognitive maps" />
+            <p class="figure-caption">Table 3. Generation methods for realization of cognitive maps.</p>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="section reveal" id="applications">
@@ -916,6 +1067,10 @@
             <span>▸ Multi-agent spatial memory</span>
           </div>
         </article>
+      </div>
+      <div class="figure-card card" style="margin-top: 1.5rem;">
+        <img src="./asset/application.png" alt="Applications of cognitive-map-centered spatial intelligence" />
+        <p class="figure-caption">Applications of cognitive-map-centered spatial intelligence.</p>
       </div>
     </section>
 
@@ -955,7 +1110,7 @@
   </main>
 
   <footer class="footer">
-    Built for <em>Spatial Intelligence from a Cognitive Map Perspective: A Survey</em>. Replace the CSS diagram with paper figures if you want a more figure-heavy project page.
+    Built for <em>Spatial Intelligence from a Cognitive Map Perspective: A Survey</em>.
   </footer>
 
   <script>
