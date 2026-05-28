@@ -177,7 +177,7 @@
       margin: 0 auto;
       padding: 5.8rem 1.2rem 4rem;
       display: grid;
-      grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr);
+      grid-template-columns: 1fr;
       align-items: center;
       gap: 3rem;
     }
@@ -629,6 +629,9 @@
     }
 
     .figure-card {
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
       padding: 1rem;
       overflow: hidden;
     }
@@ -639,6 +642,41 @@
       height: auto;
       border-radius: 18px;
       background: #ffffff;
+    }
+
+    .zoomable-image {
+      cursor: zoom-in;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      transform-origin: center center;
+    }
+
+    .zoomable-image:hover {
+      transform: scale(1.035);
+      box-shadow: 0 18px 48px rgba(20, 125, 120, 0.16);
+    }
+
+    .image-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 1200;
+      display: none;
+      place-items: center;
+      padding: 2rem;
+      background: rgba(20, 50, 58, 0.62);
+      backdrop-filter: blur(12px);
+    }
+
+    .image-lightbox.open {
+      display: grid;
+    }
+
+    .image-lightbox img {
+      max-width: min(94vw, 1280px);
+      max-height: 88vh;
+      border-radius: 20px;
+      background: #ffffff;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.22);
+      cursor: zoom-out;
     }
 
     .figure-caption {
@@ -656,7 +694,7 @@
 
     .subsection-grid {
       display: grid;
-      grid-template-columns: 0.95fr 1.05fr;
+      grid-template-columns: 1fr;
       gap: 1rem;
       align-items: start;
     }
@@ -748,6 +786,11 @@
         align-items: flex-start;
         flex-direction: column;
       }
+
+      .figure-card {
+        width: 100%;
+      }
+
     }
 
     @media (max-width: 620px) {
@@ -824,7 +867,7 @@
   <main id="top">
     <section class="hero">
       <div class="hero-copy reveal">
-        <span class="tag">🧠 Survey · Spatial Intelligence · Cognitive Maps</span>
+        <span class="tag">🧠 Survey</span>
         <h1><span class="gradient-text">Spatial Intelligence</span><br />from a Cognitive Map Perspective</h1>
         <p class="subtitle">
           A mechanism-centric survey that revisits spatial intelligence through the lens of cognitive maps: how internal spatial representations are constructed, maintained, reasoned over, and realized.
@@ -833,7 +876,7 @@
           <strong>Yuxuan Tian</strong>*, <strong>Yuheng Ji</strong>*†, <strong>Xiaolong Zheng</strong>*✉, Ziheng Qin, Yipu Wang, Xinyi Zheng, Yuyang Liu, Shuanghao Bai, Zhe Li, Liang Wang, Daniel Dajun Zeng
         </p>
         <p class="affiliations">
-          State Key Laboratory of Multimodal Artificial Intelligence Systems, CAS · UCAS · Beihang University · Xi’an Jiaotong University · NTU<br />
+          State Key Laboratory of Multimodal Artificial Intelligence Systems, Institute of Automation, Chinese Academy of Sciences · School of Artificial Intelligence, University of Chinese Academy of Sciences · School of Advanced Interdisciplinary Sciences, University of Chinese Academy of Sciences · Beihang University · Xi’an Jiaotong University · Nanyang Technological University<br />
           * Equal contribution · † Project leader · ✉ Corresponding author
         </p>
         <div class="actions">
@@ -842,26 +885,11 @@
           <a class="btn" href="#cite">❝ BibTeX</a>
         </div>
       </div>
-
-      <div class="hero-card reveal" aria-label="Cognitive map framework diagram">
-        <div class="map-orbit">
-          <div class="node p1"><b>Perception</b><small>Construct cognitive maps from local and fragmented observations.</small></div>
-          <div class="node p2"><b>Reasoning</b><small>Infer relationships, states, and actions with the map.</small></div>
-          <div class="node p3"><b>Generation</b><small>Realize internal maps into 3D scenes and world simulations.</small></div>
-          <div class="node p4"><b>Memory</b><small>Maintain persistent spatial states across viewpoints and time.</small></div>
-          <div class="map-core"><div><span>Unified</span>Cognitive<br />Map</div></div>
-        </div>
-        <div class="stat-strip">
-          <div class="stat"><b>3</b><span>Core properties</span></div>
-          <div class="stat"><b>3</b><span>Processes</span></div>
-          <div class="stat"><b>2</b><span>Interaction modes</span></div>
-        </div>
-      </div>
     </section>
 
     <section class="hero-figure reveal" aria-label="Spatial intelligence overview figure">
       <div class="figure-card card">
-        <img src="./asset/spatial.png" alt="Overview of spatial intelligence from a cognitive map perspective" />
+        <img class="zoomable-image" src="./asset/spatial.png" alt="Overview of spatial intelligence from a cognitive map perspective" data-zoom-src="./asset/spatial.png" />
         <p class="figure-caption">Overview of spatial intelligence from a cognitive map perspective.</p>
       </div>
     </section>
@@ -871,7 +899,7 @@
         <span class="eyebrow">Abstract</span>
         <h2>A unified representational view of spatial intelligence.</h2>
         <p>
-          Existing spatial intelligence research spans foundation models, embodied agents, 3D representation learning, spatial reasoning, and generation. This survey argues that these lines of work share a deeper representational requirement: a persistent internal spatial representation that supports perception, reasoning, and generation.
+          Spatial intelligence requires agents to form and utilize internal representations of the physical world for perception, reasoning, and generation. While recent advances in foundation models, embodied systems, and three-dimensional representation learning have substantially expanded spatial capabilities, existing research remains fragmented across heterogeneous tasks and model paradigms. This survey revisits spatial intelligence from a cognitive map perspective and positions cognitive maps as its representational blueprint. In this view, diverse lines of research can be understood through a shared question: how an internal spatial representation is constructed, maintained, reasoned over, and realized. To make this perspective operational, we define cognitive maps as internal spatial representations characterized by abstraction, globality, and persistency. Based on this definition, we organize the literature into three cognitive-map-centric processes that correspond to the core dimensions of spatial intelligence: perception for cognitive map construction, reasoning for internal inference with the map, and generation for external realization of the map. By adopting a mechanism-centric viewpoint, this survey connects previously isolated research directions into a coherent framework and identifies emerging challenges toward unified spatial intelligence systems. 
         </p>
       </div>
       <div class="abstract-card card">
@@ -1112,9 +1140,9 @@
     </section>
   </main>
 
-  <footer class="footer">
-    Built for <em>Spatial Intelligence from a Cognitive Map Perspective: A Survey</em>.
-  </footer>
+  <div class="image-lightbox" id="imageLightbox" aria-label="Image preview">
+    <img id="lightboxImage" src="" alt="Zoomed preview" />
+  </div>
 
   <script>
     const enterScreen = document.getElementById('enterScreen');
@@ -1136,6 +1164,29 @@
     }, { threshold: 0.12 });
 
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+    const imageLightbox = document.getElementById('imageLightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+
+    document.querySelectorAll('.zoomable-image').forEach((img) => {
+      img.addEventListener('click', () => {
+        lightboxImage.src = img.dataset.zoomSrc || img.src;
+        lightboxImage.alt = img.alt || 'Zoomed preview';
+        imageLightbox.classList.add('open');
+      });
+    });
+
+    imageLightbox.addEventListener('click', () => {
+      imageLightbox.classList.remove('open');
+      lightboxImage.src = '';
+    });
+
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        imageLightbox.classList.remove('open');
+        lightboxImage.src = '';
+      }
+    });
   </script>
 </body>
 </html>
