@@ -1208,6 +1208,1241 @@
 
   <script>
     const enterScreen = document.getElementById('enterScreen');
+    const hideEnter = () => {
+      if (!enterScreen || enterScreen.classList.contains('hide')) return;
+      enterScreen.classList.add('hide');
+      window.setTimeout(() => enterScreen.remove(), 750);
+    };
+
+    if (enterScreen) {
+      enterScreen.addEventListener('pointerdown', hideEnter, { once: true });
+      enterScreen.addEventListener('click', hideEnter, { once: true });
+      enterScreen.addEventListener('touchstart', hideEnter, { once: true, passive: true });
+    }
+    window.addEventListener('keydown', hideEnter, { once: true });
+
+    const homeLink = document.querySelector('.brand[href="#top"]');
+    if (homeLink) {
+      homeLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        hideEnter();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    const progress = document.getElementById('progress');
+    window.addEventListener('scroll', () => {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0;
+      progress.style.width = pct + '%';
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+    const imageLightbox = document.getElementById('imageLightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+
+    document.querySelectorAll('.zoomable-image').forEach((img) => {
+      img.addEventListener('click', () => {
+        lightboxImage.src = img.dataset.zoomSrc || img.src;
+        lightboxImage.alt = img.alt || 'Zoomed preview';
+        imageLightbox.classList.add('open');
+      });
+    });
+
+    imageLightbox.addEventListener('click', () => {
+      imageLightbox.classList.remove('open');
+      lightboxImage.src = '';
+    });
+
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        imageLightbox.classList.remove('open');
+        lightboxImage.src = '';
+      }
+    });
+  </script>
+</body>
+</html>        radial-gradient(circle at 86% 16%, rgba(183, 235, 230, 0.18), transparent 30rem),
+        linear-gradient(180deg, #ffffff 0%, var(--bg) 48%, #ffffff 100%);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0;
+      background: linear-gradient(90deg, var(--blue), var(--cyan), var(--violet));
+      z-index: 1000;
+    }
+
+    .enter-screen {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 50% 38%, rgba(125, 222, 214, 0.32), transparent 22rem),
+        linear-gradient(135deg, #ffffff 0%, #f0fcfb 58%, #dff8f5 100%);
+      color: var(--ink);
+      z-index: 999;
+      transition: opacity 0.7s ease, visibility 0.7s ease;
+      cursor: pointer;
+    }
+
+    .enter-screen.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .enter-inner {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .enter-logo {
+      width: 108px;
+      height: 108px;
+      border-radius: 32px;
+      margin: 0 auto 1.4rem;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(53, 189, 178, 0.22);
+      box-shadow: 0 28px 80px rgba(20, 125, 120, 0.12);
+      font-size: 3.2rem;
+      backdrop-filter: blur(18px);
+    }
+
+    .enter-inner h1 {
+      max-width: 900px;
+      margin: 0 auto 0.7rem;
+      font-size: clamp(2rem, 6vw, 5.2rem);
+      line-height: 1.02;
+      letter-spacing: -0.06em;
+    }
+
+    .enter-inner p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      background: rgba(247, 251, 255, 0.78);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0.8rem 1.2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      box-shadow: 0 10px 28px rgba(20, 125, 120, 0.16);
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 0.2rem;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    .nav-links a {
+      padding: 0.45rem 0.72rem;
+      border-radius: 999px;
+    }
+
+    .nav-links a:hover {
+      background: rgba(53, 189, 178, 0.10);
+      color: var(--blue-dark);
+    }
+
+    .section {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 5.2rem 1.2rem 0;
+    }
+
+    .hero {
+      max-width: 1220px;
+      min-height: calc(100vh - 62px);
+      margin: 0 auto;
+      padding: 5.8rem 1.2rem 4rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      align-items: center;
+      gap: 3rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.42rem 0.72rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--blue-dark);
+      font-weight: 700;
+      font-size: 0.86rem;
+      box-shadow: 0 10px 30px rgba(20, 125, 120, 0.08);
+    }
+
+    .hero h1 {
+      margin: 1.25rem 0 1rem;
+      font-size: clamp(2.7rem, 6.3vw, 6.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.075em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #147d78, #35bdb2 48%, #7dded6 88%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      max-width: 760px;
+      margin: 0 0 1.4rem;
+      color: #42526e;
+      font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+    }
+
+    .authors {
+      color: var(--muted);
+      font-size: 0.98rem;
+      margin: 1.1rem 0 0;
+    }
+
+    .authors strong {
+      color: var(--ink);
+      font-weight: 750;
+    }
+
+    .affiliations {
+      margin-top: 0.75rem;
+      color: #7b8797;
+      font-size: 0.9rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.8rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.84rem 1.1rem;
+      border-radius: 999px;
+      font-weight: 800;
+      border: 1px solid var(--line);
+      background: var(--card-solid);
+      box-shadow: 0 14px 36px rgba(20, 125, 120, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn.primary {
+      color: white;
+      border: 0;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 46px rgba(20, 125, 120, 0.14);
+    }
+
+    .hero-card {
+      position: relative;
+      min-height: 520px;
+      border: 1px solid var(--line);
+      border-radius: 36px;
+      background: rgba(255, 255, 255, 0.64);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(20px);
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: -35% -30% auto auto;
+      width: 370px;
+      height: 370px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(125, 222, 214, 0.28), transparent 68%);
+    }
+
+    .map-orbit {
+      position: absolute;
+      inset: 42px;
+      border: 1px dashed rgba(53, 189, 178, 0.22);
+      border-radius: 32px;
+      display: grid;
+      place-items: center;
+    }
+
+    .map-core {
+      position: relative;
+      width: 190px;
+      height: 190px;
+      border-radius: 44px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: white;
+      background: linear-gradient(145deg, #147d78, #35bdb2 62%, #7dded6);
+      box-shadow: 0 30px 80px rgba(20, 125, 120, 0.22);
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      z-index: 2;
+    }
+
+    .map-core span {
+      display: block;
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.72);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.2rem;
+    }
+
+    .node {
+      position: absolute;
+      width: 160px;
+      padding: 1rem;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--line);
+      box-shadow: 0 18px 40px rgba(20, 125, 120, 0.10);
+      font-size: 0.86rem;
+    }
+
+    .node b {
+      display: block;
+      margin-bottom: 0.2rem;
+      color: var(--blue-dark);
+      font-size: 0.96rem;
+    }
+
+    .node small {
+      color: var(--muted);
+    }
+
+    .node.p1 { top: 34px; left: 50%; transform: translateX(-50%); }
+    .node.p2 { right: 28px; top: 50%; transform: translateY(-50%); }
+    .node.p3 { bottom: 34px; left: 50%; transform: translateX(-50%); }
+    .node.p4 { left: 28px; top: 50%; transform: translateY(-50%); }
+
+    .stat-strip {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 24px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+    }
+
+    .stat {
+      padding: 0.85rem 0.7rem;
+      border-radius: 18px;
+      background: rgba(238, 252, 250, 0.88);
+      text-align: center;
+      border: 1px solid rgba(53, 189, 178, 0.14);
+    }
+
+    .stat b {
+      display: block;
+      font-size: 1.35rem;
+      color: var(--blue-dark);
+    }
+
+    .stat span {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .section-head {
+      max-width: 820px;
+      margin-bottom: 2rem;
+    }
+
+    .eyebrow {
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.76rem;
+      font-weight: 900;
+    }
+
+    .section h2 {
+      margin: 0.25rem 0 0.7rem;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1.02;
+      letter-spacing: -0.055em;
+    }
+
+    .section-head p,
+    .lead {
+      color: #475569;
+      font-size: 1.05rem;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: 0 16px 52px rgba(20, 125, 120, 0.08);
+      backdrop-filter: blur(18px);
+    }
+
+    .abstract-card {
+      padding: 2rem;
+      font-size: 1.06rem;
+      color: #334155;
+    }
+
+    .abstract-overview {
+      max-width: none;
+      padding: 1.4rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 38%;
+      gap: 1.2rem;
+      align-items: center;
+    }
+
+    .abstract-copy p {
+      margin-bottom: 0;
+    }
+
+    .abstract-figure {
+      align-self: stretch;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .definition-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .pill-card {
+      padding: 1.35rem;
+      min-height: 188px;
+    }
+
+    .pill-card .icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 0.8rem;
+      color: white;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      font-size: 1.3rem;
+    }
+
+    .pill-card h3 {
+      margin: 0 0 0.35rem;
+      font-size: 1.2rem;
+      letter-spacing: -0.02em;
+    }
+
+    .pill-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .framework {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 1.2rem;
+      align-items: stretch;
+    }
+
+    .framework-center {
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: linear-gradient(145deg, #ffffff 0%, #eefcfa 48%, #dff8f5 100%);
+      border-color: rgba(53, 189, 178, 0.22);
+      color: var(--ink);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .framework-center::after {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      right: -90px;
+      bottom: -120px;
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    .framework-center h3 {
+      margin: 0 0 0.6rem;
+      font-size: 2rem;
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+    }
+
+    .framework-center p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .process-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .process {
+      padding: 1.2rem;
+      display: grid;
+      grid-template-columns: 66px 1fr;
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .process-num {
+      width: 66px;
+      height: 66px;
+      border-radius: 22px;
+      display: grid;
+      place-items: center;
+      font-weight: 950;
+      color: var(--blue-dark);
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+    }
+
+    .process h3 {
+      margin: 0 0 0.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .process p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .taxonomy-shell {
+      padding: 1rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .taxonomy-column {
+      padding: 1.2rem;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(53, 189, 178, 0.14);
+    }
+
+    .taxonomy-column h3 {
+      margin: 0 0 0.75rem;
+      color: var(--blue-dark);
+      letter-spacing: -0.02em;
+    }
+
+    .tax-item {
+      margin: 0.7rem 0;
+      padding: 0.8rem;
+      border-radius: 16px;
+      background: #fbfffe;
+      border: 1px solid rgba(53, 189, 178, 0.12);
+    }
+
+    .tax-item b {
+      display: block;
+      font-size: 0.94rem;
+    }
+
+    .tax-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.84rem;
+      margin-top: 0.16rem;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .app-card {
+      padding: 1.4rem;
+      min-height: 210px;
+    }
+
+    .app-card h3 {
+      margin: 0 0 0.6rem;
+      color: var(--blue-dark);
+      letter-spacing: -0.02em;
+    }
+
+    .app-list {
+      display: grid;
+      gap: 0.55rem;
+      margin-top: 1rem;
+    }
+
+    .app-list span {
+      display: inline-flex;
+      gap: 0.5rem;
+      align-items: center;
+      color: #475569;
+    }
+
+    .future-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.85rem;
+    }
+
+    .future {
+      padding: 1.1rem;
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(238, 252, 250, 0.72));
+      border: 1px solid var(--line);
+      box-shadow: 0 14px 42px rgba(20, 125, 120, 0.07);
+    }
+
+    .future b {
+      display: block;
+      margin-bottom: 0.35rem;
+      color: var(--blue-dark);
+      line-height: 1.2;
+    }
+
+    .future span {
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .figure-card {
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 1rem;
+      overflow: hidden;
+    }
+
+    .figure-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 18px;
+      background: #ffffff;
+    }
+
+    .zoomable-image {
+      cursor: zoom-in;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      transform-origin: center center;
+    }
+
+    .zoomable-image:hover {
+      transform: scale(1.035);
+      box-shadow: 0 18px 48px rgba(20, 125, 120, 0.16);
+    }
+
+    .image-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 1200;
+      display: none;
+      place-items: center;
+      padding: 2rem;
+      background: rgba(20, 50, 58, 0.62);
+      backdrop-filter: blur(12px);
+    }
+
+    .image-lightbox.open {
+      display: grid;
+    }
+
+    .image-lightbox img {
+      max-width: min(94vw, 1280px);
+      max-height: 88vh;
+      border-radius: 20px;
+      background: #ffffff;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.22);
+      cursor: zoom-out;
+    }
+
+    .figure-caption {
+      margin: 0.85rem 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+      text-align: center;
+    }
+
+    .hero-figure {
+      max-width: var(--max);
+      margin: -2rem auto 0;
+      padding: 0 1.2rem;
+    }
+
+    .subsection-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .subsection-text {
+      padding: 1.4rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 34%;
+      gap: 1.2rem;
+      align-items: center;
+    }
+
+    .subsection-text h3 {
+      margin: 0 0 0.6rem;
+      color: var(--blue-dark);
+      letter-spacing: -0.02em;
+      font-size: 1.45rem;
+    }
+
+    .subsection-text p {
+      margin: 0;
+      color: #475569;
+    }
+
+    .inline-figure {
+      margin: 0;
+      padding: 0.65rem;
+      border-radius: 20px;
+      background: #ffffff;
+      border: 1px solid rgba(53, 189, 178, 0.14);
+    }
+
+    .inline-figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 14px;
+    }
+
+    .inline-figure .figure-caption {
+      margin-top: 0.5rem;
+      font-size: 0.84rem;
+      line-height: 1.4;
+    }
+
+    .image-stack {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .bibtex {
+      padding: 1.2rem;
+      overflow-x: auto;
+      border-radius: var(--radius);
+      background: #ffffff;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    pre {
+      margin: 0;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+    }
+
+    .footer {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 4rem 1.2rem 3rem;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.92rem;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 940px) {
+      .hero,
+      .framework,
+      .two-col,
+      .subsection-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 4rem;
+      }
+
+      .hero-card {
+        min-height: 500px;
+      }
+
+      .definition-grid,
+      .taxonomy-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .future-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nav-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .figure-card {
+        width: 100%;
+      }
+
+      .abstract-overview,
+      .subsection-text {
+        grid-template-columns: 1fr;
+      }
+
+      .abstract-figure,
+      .inline-figure {
+        max-width: 520px;
+        margin: 0 auto;
+      }
+
+    }
+
+    @media (max-width: 620px) {
+      .hero-card {
+        min-height: 650px;
+      }
+
+      .map-orbit {
+        inset: 20px;
+      }
+
+      .node {
+        position: relative;
+        width: auto;
+        inset: auto !important;
+        transform: none !important;
+        margin: 0.4rem;
+      }
+
+      .map-orbit {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.35rem;
+      }
+
+      .map-core {
+        width: 150px;
+        height: 150px;
+        border-radius: 34px;
+      }
+
+      .stat-strip,
+      .future-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-strip {
+        position: static;
+        padding: 0 20px 20px;
+        margin-top: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+
+  <div class="enter-screen" id="enterScreen" aria-label="Click to enter">
+    <div class="enter-inner">
+      <div class="enter-logo">🧭</div>
+      <h1>Spatial Intelligence<br />from Cognitive Maps</h1>
+      <p>Click anywhere to enter the project homepage.</p>
+    </div>
+  </div>
+
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top"><span>Home</span></a>
+      <div class="nav-links" aria-label="Page navigation">
+        <a href="#abstract">Abstract</a>
+        <a href="#framework">Framework</a>
+        <a href="#taxonomy">Taxonomy</a>
+        <a href="#perception">Perception</a>
+        <a href="#reasoning">Reasoning</a>
+        <a href="#generation">Generation</a>
+        <a href="#applications">Applications</a>
+        <a href="#future">Future</a>
+        <a href="#cite">Cite</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy reveal">
+        <span class="tag">🧠 Survey</span>
+        <h1><span class="gradient-text">Spatial Intelligence</span><br />from a Cognitive Map Perspective</h1>
+        <p class="subtitle">
+          A mechanism-centric survey that revisits spatial intelligence through the lens of cognitive maps: how internal spatial representations are constructed, maintained, reasoned over, and realized.
+        </p>
+        <p class="authors">
+          <strong>Yuxuan Tian</strong>*, <strong>Yuheng Ji</strong>*†, <strong>Xiaolong Zheng</strong>*✉, Ziheng Qin, Yipu Wang, Xinyi Zheng, Yuyang Liu, Shuanghao Bai, Zhe Li, Liang Wang, Daniel Dajun Zeng
+        </p>
+        <p class="affiliations">
+          State Key Laboratory of Multimodal Artificial Intelligence Systems, Institute of Automation, Chinese Academy of Sciences · School of Artificial Intelligence, University of Chinese Academy of Sciences · School of Advanced Interdisciplinary Sciences, University of Chinese Academy of Sciences · Beihang University · Xi’an Jiaotong University · Nanyang Technological University<br />
+          * Equal contribution · † Project leader · ✉ Corresponding author
+        </p>
+        <div class="actions">
+          <a class="btn primary" href="https://doi.org/10.20944/preprints202605.1782.v1" target="_blank" rel="noopener">📄 Paper</a>
+          <a class="btn" href="https://github.com/Klingsor-tyx/Awesome-Spatial-Cognitive-Map" target="_blank" rel="noopener">⭐ Awesome List</a>
+          <a class="btn" href="#cite">❝ BibTeX</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="abstract">
+      <div class="section-head abstract-overview card">
+        <div class="abstract-copy">
+          <span class="eyebrow">Abstract</span>
+          <h2>A unified representational view of spatial intelligence.</h2>
+          <p>
+            Spatial intelligence requires agents to form and utilize internal representations of the physical world for perception, reasoning, and generation. While recent advances in foundation models, embodied systems, and three-dimensional representation learning have substantially expanded spatial capabilities, existing research remains fragmented across heterogeneous tasks and model paradigms. This survey revisits spatial intelligence from a cognitive map perspective and positions cognitive maps as its representational blueprint. In this view, diverse lines of research can be understood through a shared question: how an internal spatial representation is constructed, maintained, reasoned over, and realized. To make this perspective operational, we define cognitive maps as internal spatial representations characterized by abstraction, globality, and persistency. Based on this definition, we organize the literature into three cognitive-map-centric processes that correspond to the core dimensions of spatial intelligence: perception for cognitive map construction, reasoning for internal inference with the map, and generation for external realization of the map. By adopting a mechanism-centric viewpoint, this survey connects previously isolated research directions into a coherent framework and identifies emerging challenges toward unified spatial intelligence systems. 
+          </p>
+        </div>
+        <figure class="inline-figure abstract-figure">
+          <img class="zoomable-image" src="./asset/spatial.png" alt="Overview of spatial intelligence from a cognitive map perspective" data-zoom-src="./asset/spatial.png" />
+          <figcaption class="figure-caption">Overview of spatial intelligence from a cognitive map perspective.</figcaption>
+        </figure>
+      </div>
+      <div class="abstract-card card">
+        <p>
+          We position <strong>cognitive maps</strong> as the representational blueprint of spatial intelligence. Instead of treating perception, reasoning, and generation as isolated task families, the survey reorganizes them as three cognitive-map-centric processes: <strong>construction</strong>, <strong>inference</strong>, and <strong>realization</strong>. This perspective connects metric-semantic mapping, scene graphs, spatial memory systems, and structured world models under a shared question: how should an agent build, update, query, and instantiate an internal model of space?
+        </p>
+      </div>
+      <div class="definition-grid">
+        <article class="pill-card card">
+          <div class="icon">A</div>
+          <h3>Abstraction</h3>
+          <p>Transform raw sensory streams into structured entities, attributes, relations, and topological organization.</p>
+        </article>
+        <article class="pill-card card">
+          <div class="icon">G</div>
+          <h3>Globality</h3>
+          <p>Integrate partial observations across viewpoints and time into a cross-view consistent spatial layout.</p>
+        </article>
+        <article class="pill-card card">
+          <div class="icon">P</div>
+          <h3>Persistency</h3>
+          <p>Maintain and update spatial representations through memory rather than reconstructing the world from scratch.</p>
+        </article>
+      </div>
+      <div class="figure-card card" style="margin-top: 1.5rem;">
+        <img src="./asset/definition.png" alt="Definition of cognitive map: abstraction, globality, and persistency" />
+        <p class="figure-caption">Definition of cognitive map: abstraction, globality, and persistency.</p>
+      </div>
+    </section>
+
+    <section class="section reveal" id="framework">
+      <div class="section-head">
+        <span class="eyebrow">Conceptual Framework</span>
+        <h2>Construct, infer, and realize cognitive maps.</h2>
+        <p>
+          The survey reframes spatial intelligence as an operational loop centered on an internal spatial representation.
+        </p>
+      </div>
+      <div class="framework">
+        <div class="framework-center card">
+          <h3>Cognitive Map as the architectural blueprint</h3>
+          <p>
+            A cognitive map is not merely a storage layer. It specifies the operating mode of a spatially intelligent system: abstract observations, organize them globally, maintain them persistently, and reuse them for reasoning and generation.
+          </p>
+        </div>
+        <div class="process-grid">
+          <article class="process card">
+            <div class="process-num">01</div>
+            <div><h3>Perception: Construction</h3><p>Build cognitive maps from RGB, RGB-D, video, LiDAR, point clouds, and multimodal observations.</p></div>
+          </article>
+          <article class="process card">
+            <div class="process-num">02</div>
+            <div><h3>Reasoning: Inference</h3><p>Read and manipulate maps as embeddings, prompts, or APIs for grounding, planning, and decision-making.</p></div>
+          </article>
+          <article class="process card">
+            <div class="process-num">03</div>
+            <div><h3>Generation: Realization</h3><p>Use maps as structural priors for static scene synthesis and dynamic world simulation.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="taxonomy">
+      <div class="section-head">
+        <span class="eyebrow">Taxonomy</span>
+        <h2>A cognitive-map-centric organization of the literature.</h2>
+        <p>
+          The taxonomy follows the lifecycle of internal spatial representations, from construction to reasoning and external realization.
+        </p>
+      </div>
+      <div class="taxonomy-shell card">
+        <div class="taxonomy-column">
+          <h3>Perception</h3>
+          <div class="tax-item"><b>Metric Representation</b><span>Explicit geometry · parametric coordinates</span></div>
+          <div class="tax-item"><b>Relational Representation</b><span>Structured graphs · serialized graphs</span></div>
+          <div class="tax-item"><b>Hybrid Representation</b><span>Hierarchical architectures · feature fusion</span></div>
+        </div>
+        <div class="taxonomy-column">
+          <h3>Reasoning</h3>
+          <div class="tax-item"><b>Map as Embedding</b><span>Structural state propagation · latent feature matching</span></div>
+          <div class="tax-item"><b>Map as Prompt</b><span>Textual · visual · multimodal prompting</span></div>
+          <div class="tax-item"><b>Map as API</b><span>Real-time state snapshots · persistent spatial memory</span></div>
+        </div>
+        <div class="taxonomy-column">
+          <h3>Generation</h3>
+          <div class="tax-item"><b>Static Scene Synthesis</b><span>Map-based retrieval · map-to-scene generation</span></div>
+          <div class="tax-item"><b>Dynamic World Simulation</b></div>
+        </div>
+      </div>
+      <div class="figure-card card" style="margin-top: 1.5rem;">
+        <img src="./asset/structure.png" alt="Overall structure and taxonomy of the survey" />
+        <p class="figure-caption">Overall structure and taxonomy of the survey.</p>
+      </div>
+    </section>
+
+    <section class="section reveal" id="perception">
+      <div class="section-head">
+        <span class="eyebrow">Perception</span>
+        <h2>Construction of cognitive maps.</h2>
+        <p>
+          Perception constructs unified internal spatial representations from local and fragmented sensor observations, including metric, relational, and hybrid cognitive maps.
+        </p>
+      </div>
+      <div class="subsection-grid">
+        <div class="subsection-text card">
+          <div class="subsection-copy">
+            <h3>Representation paradigms</h3>
+            <p>Metric representations provide geometric grounding, relational representations organize topological and semantic dependencies, and hybrid representations combine both levels for richer spatial understanding.</p>
+          </div>
+          <figure class="inline-figure">
+            <img src="./asset/perception.png" alt="Perception: construction of cognitive maps" />
+            <figcaption class="figure-caption">Perception: construction of cognitive maps.</figcaption>
+          </figure>
+        </div>
+        <div class="image-stack">
+          <div class="figure-card card">
+            <img src="./asset/table1.png" alt="Table 1: Overview of different representations" />
+            <p class="figure-caption">Table 1. Overview of different representations.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="reasoning">
+      <div class="section-head">
+        <span class="eyebrow">Reasoning</span>
+        <h2>Inference with cognitive maps.</h2>
+        <p>
+          Reasoning uses cognitive maps as embeddings, prompts, or callable APIs to retrieve spatial knowledge, ground language and perception, and support planning or decision-making.
+        </p>
+      </div>
+      <div class="subsection-grid">
+        <div class="subsection-text card">
+          <div class="subsection-copy">
+            <h3>Reasoning paradigms</h3>
+            <p>Map-as-embedding emphasizes compact latent states, map-as-prompt connects cognitive maps with foundation models, and map-as-API supports controlled, stateful, closed-loop spatial reasoning.</p>
+          </div>
+          <figure class="inline-figure">
+            <img src="./asset/reasoning.png" alt="Reasoning: inference with cognitive maps" />
+            <figcaption class="figure-caption">Reasoning: inference with cognitive maps.</figcaption>
+          </figure>
+        </div>
+        <div class="image-stack">
+          <div class="figure-card card">
+            <img src="./asset/table2.png" alt="Table 2: Reasoning paradigms for inference with cognitive maps" />
+            <p class="figure-caption">Table 2. Reasoning paradigms for inference with cognitive maps.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="generation">
+      <div class="section-head">
+        <span class="eyebrow">Generation</span>
+        <h2>Realization of cognitive maps.</h2>
+        <p>
+          Generation transforms internal cognitive maps into external spatial forms, including static 3D scene synthesis and dynamic world simulation.
+        </p>
+      </div>
+      <div class="subsection-grid">
+        <div class="subsection-text card">
+          <div class="subsection-copy">
+            <h3>From map to world</h3>
+            <p>Cognitive maps can serve as structural priors, layout constraints, retrieval plans, or state memories for synthesizing scenes and maintaining temporal consistency in simulated worlds.</p>
+          </div>
+          <figure class="inline-figure">
+            <img src="./asset/generation.png" alt="Generation: realization of cognitive maps" />
+            <figcaption class="figure-caption">Generation: realization of cognitive maps.</figcaption>
+          </figure>
+        </div>
+        <div class="image-stack">
+          <div class="figure-card card">
+            <img src="./asset/table3.png" alt="Table 3: Generation methods for realization of cognitive maps" />
+            <p class="figure-caption">Table 3. Generation methods for realization of cognitive maps.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="applications">
+      <div class="section-head">
+        <span class="eyebrow">Applications</span>
+        <h2>From open-loop spatial cognition to closed-loop interaction.</h2>
+      </div>
+      <div class="two-col">
+        <article class="app-card card">
+          <h3>Open-Loop Spatial Cognition</h3>
+          <p class="lead">Cognitive maps provide an internal substrate for evaluating and generating spatial knowledge without direct action execution.</p>
+          <div class="app-list">
+            <span>▸ Spatial question answering</span>
+            <span>▸ Indoor scene synthesis</span>
+            <span>▸ Open-ended world generation</span>
+          </div>
+        </article>
+        <article class="app-card card">
+          <h3>Closed-Loop Spatial Interaction</h3>
+          <p class="lead">When agents interact with environments, maps become stateful memories that support navigation, manipulation, and collaboration.</p>
+          <div class="app-list">
+            <span>▸ Embodied navigation</span>
+            <span>▸ Embodied manipulation</span>
+          </div>
+        </article>
+      </div>
+      <div class="figure-card card" style="margin-top: 1.5rem;">
+        <img src="./asset/application.png" alt="Applications of cognitive-map-centered spatial intelligence" />
+        <p class="figure-caption">Applications of cognitive-map-centered spatial intelligence.</p>
+      </div>
+    </section>
+
+    <section class="section reveal" id="future">
+      <div class="section-head">
+        <span class="eyebrow">Future Directions</span>
+        <h2>Toward unified spatial intelligence systems.</h2>
+        <p>
+          The cognitive map perspective exposes several bottlenecks that future spatial intelligence systems need to address.
+        </p>
+      </div>
+      <div class="future-grid">
+        <article class="future"><b>Deep Semantic Abstraction</b><span>Move beyond object labels toward attributes, affordances, and causal mechanisms.</span></article>
+        <article class="future"><b>Scalable Globality</b><span>Learn spatial priors for completing global map skeletons from sparse local evidence.</span></article>
+        <article class="future"><b>Lifelong Persistency</b><span>Maintain 4D spatiotemporal maps in changing real-world environments.</span></article>
+        <article class="future"><b>Generative Simulators</b><span>Turn cognitive maps into internal world models for counterfactual and future-state simulation.</span></article>
+        <article class="future"><b>Perception–Action Gap</b><span>Bridge representational maps with robust embodied planning and execution.</span></article>
+      </div>
+    </section>
+
+    <section class="section reveal" id="cite">
+      <div class="section-head">
+        <span class="eyebrow">Citation</span>
+        <h2>Cite this survey.</h2>
+      </div>
+      <div class="bibtex">
+<pre>@article{tian2026spatial,
+  title   = {Spatial Intelligence from a Cognitive Map Perspective: A Survey},
+  author  = {Tian, Yuxuan and Ji, Yuheng and Zheng, Xiaolong and Qin, Ziheng and Wang, Yipu and Zheng, Xinyi and Liu, Yuyang and Bai, Shuanghao and Li, Zhe and Wang, Liang and Zeng, Daniel Dajun},
+  year    = {2026},
+  journal = {Preprints},
+  doi     = {10.20944/preprints202605.1782.v1},
+  url     = {https://doi.org/10.20944/preprints202605.1782.v1}
+}</pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    
+  </footer>
+
+  <div class="image-lightbox" id="imageLightbox" aria-label="Image preview">
+    <img id="lightboxImage" src="" alt="Zoomed preview" />
+  </div>
+
+  <script>
+    const enterScreen = document.getElementById('enterScreen');
     const hideEnter = () => enterScreen.classList.add('hide');
     enterScreen.addEventListener('click', hideEnter);
     window.addEventListener('keydown', hideEnter, { once: true });
